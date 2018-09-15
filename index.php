@@ -23,6 +23,7 @@
 								<li><a onclick="atualizaCentro(\'view/movimento.php #movimento\');">Movimento</a></li>
 								<li><a onclick="atualizaCentro(\'view/tipo_movimento.php #tipo_movimento\');">Tipo de Movimento</a></li>
 								<li><a onclick="atualizaCentro(\'view/pessoa.php #pessoa\');">Pessoa</a></li>
+								<li><a onclick="atualizaCentro(\'view/carteira.php #carteira\');">Carteira</a></li>
 							</ul>
 						</li>
 						<li><a href="javascript:void(0)">Relatórios</a></b>
