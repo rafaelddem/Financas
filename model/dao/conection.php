@@ -7,7 +7,7 @@
 			$this -> banco = "financas";
 			$this -> servidor = "127.0.0.1";
 			$this -> usuario = "root";
-			$this -> senha = "root";
+			$this -> senha = "";
 		}
 		
 		public function setBanco(){
@@ -42,8 +42,8 @@
 			return $this -> senha;
 		}
 		
-		public function Open(){
-			return mysqli_connect($this -> servidor, $this -> usuario, $this -> senha, $this -> banco);
+		public function criaPDO(){
+			return new PDO("mysql:host=".$this -> servidor.";dbname=".$this -> banco, $this -> usuario, $this -> senha);
 		}
 		
 	}
