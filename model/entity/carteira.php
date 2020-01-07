@@ -83,6 +83,10 @@
 			$this -> ativo = $ativo;
 		}
 		
+		public function __toString() {
+			$string = "(" . $this -> codigo . ")" . $this -> nome;
+			return $string;
+		}
 
 	}
 	

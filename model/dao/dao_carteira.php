@@ -51,8 +51,8 @@
 				if (isset($dono)) {
 					$sql .= "chr_dono = :dono, ";
 				}
-				$ativo = $carteira->getAtivo();
-				if (isset($ativo)) {
+				$ativo = $carteira->getAtivo() == true;
+				if ($ativo) {
 					$sql .= "chr_ativo = :ativo, ";
 				}
 				$sql = substr($sql, 0, -2)." where int_codigo = :codigo;";
@@ -61,9 +61,8 @@
 				if (isset($nome)) $stmt->bindParam(':nome', $nome,PDO::PARAM_STR);
 				if (isset($tipo)) $stmt->bindParam(':tipo', $tipo,PDO::PARAM_INT);
 				if (isset($dono)) $stmt->bindParam(':dono', $dono,PDO::PARAM_INT);
-				if (isset($ativo)) $stmt->bindParam(':ativo', $ativo,PDO::PARAM_INT);
+				if ($ativo) $stmt->bindParam(':ativo', $ativo,PDO::PARAM_INT);
 				$stmt->bindParam(':codigo', $codigo,PDO::PARAM_INT);
-
 				if (!$stmt->execute()) {
 					$pdo->rollback();
 					throw new Exception("Erro interno ao sistema, ao atualizar um objeto 'carteira', necessário informar ao responsável pelo sistema.", 10);
@@ -87,7 +86,7 @@
 				if (isset($codigo)) {
 					$sql .= "int_codigo = :codigo and ";
 				}
-				$nome = $carteira->getNome();
+				$nome = "%".$carteira->getNome()."%";
 				if (isset($nome)) {
 					$sql .= "str_nome like :nome and ";
 				}
@@ -100,26 +99,29 @@
 					$sql .= "chr_dono = :dono and ";
 				}
 				$ativo = $carteira->getAtivo() == true;
-				if (isset($ativo)) {
+				if ($ativo) {
 					$sql .= "chr_ativo = :ativo and ";
 				}
 				$sql = substr($sql, 0, -4).";";
-				
-				$stmt = $pdo->prepare("insert into tbfi_carteira (str_nome, chr_tipo, chr_dono, chr_ativo) values (:nome, :tipo, :dono, :ativo);");
-				$stmt->bindParam(':codigo', $codigo,PDO::PARAM_INT);
-				$stmt->bindParam(':nome', "'%".$nome."%'",PDO::PARAM_STR);
-				$stmt->bindParam(':tipo', $tipo,PDO::PARAM_INT);
-				$stmt->bindParam(':dono', $dono,PDO::PARAM_INT);
-				$stmt->bindParam(':ativo', $ativo,PDO::PARAM_INT);
+				$stmt = $pdo->prepare($sql);
+				if (isset($codigo)) $stmt->bindParam(':codigo', $codigo,PDO::PARAM_INT);
+				if (isset($nome)) $stmt->bindParam(':nome', $nome,PDO::PARAM_STR);
+				if (isset($tipo)) $stmt->bindParam(':tipo', $tipo,PDO::PARAM_INT);
+				if (isset($dono)) $stmt->bindParam(':dono', $dono,PDO::PARAM_INT);
+				if ($ativo) $stmt->bindParam(':ativo', $ativo,PDO::PARAM_INT);
 				
 				if($stmt->execute()){
 					if($stmt->rowCount() > 0){
+						$carteiras = array();
 						while($row = $stmt->fetch(PDO::FETCH_OBJ)){
-							$senha = new Senha($row->codigo, $row->posicao, $row->preferencial);
+							$parametros = array("codigo" => $row->int_codigo, "nome" => $row->str_nome, "tipo" => $row->chr_tipo, "dono" => $row->chr_dono, "ativo" => boolval($row->chr_ativo));
+							$carteira = new Carteira($parametros);
+							array_push($carteiras, $carteira);
 						}
+						return $carteiras;
 					} else {
 						$pdo->rollback();
-						$retorno  = "Não há registro de senhas atendidas anteriormente.";
+						$retorno  = "Não há registro para os filtros pesquisados.";
 						return $retorno;
 					}
 				} else {
