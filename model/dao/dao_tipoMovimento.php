@@ -1,38 +1,55 @@
 <?php
 	include_once '..\model\dao\conection.php';
-	include_once '..\model\entity\carteira.php';
+	include_once '..\model\entity\tipoMovimento.php';
 	
 	class dao_carteira {
 		
-		public function salvar($carteira) {
+		public function salvar($tipoMovimento) {
 			$conexao = new conection();
 			$pdo = $conexao -> criaPDO();
 			$pdo -> beginTransaction();
 			
-			if ($carteira instanceof Carteira) {
-				$stmt = $pdo->prepare("insert into tbfi_carteira (str_nome, chr_tipo, chr_dono, chr_ativo) values (:nome, :tipo, :dono, :ativo);");
-				$param1 = $carteira->getNome();
-				$param2 = $carteira->getTipo();
-				$param3 = $carteira->getDono();
-				$param4 = $carteira->getAtivo() == true;
+			if ($tipoMovimento instanceof TipoMovimento) {
+				$stmt = $pdo->prepare("insert into tbfi_tipoMovimento (str_nome, chr_tipo, int_indispensavel, str_descricao, chr_ativo) values (:nome, :tipo, :indispensavel, :descricao, :ativo);");
+				$nome = $tipoMovimento->getNome();
+				$tipo = $tipoMovimento->getTipo();
+				$indispensavel = $tipoMovimento->getIndispensavel();
+				$descricao = $tipoMovimento->getDescricao();
+				$ativo = $tipoMovimento->getAtivo() == true;
 				$stmt->bindParam(':nome', $param1,PDO::PARAM_STR);
 				$stmt->bindParam(':tipo', $param2,PDO::PARAM_INT);
-				$stmt->bindParam(':dono', $param3,PDO::PARAM_INT);
+				$stmt->bindParam(':indispensavel', $param3,PDO::PARAM_INT);
+				$stmt->bindParam(':descricao', $param4,PDO::PARAM_STR);
 				$stmt->bindParam(':ativo', $param4,PDO::PARAM_INT);
 
 				if (!$stmt->execute()) {
 					$pdo->rollback();
-					throw new Exception("Erro interno ao sistema, ao salvar um objeto 'carteira', necessário informar ao responsável pelo sistema.", 8);
+					throw new Exception("Erro interno ao sistema, ao salvar um objeto 'Tipo de Movimento', necessário informar ao responsável pelo sistema.", 21);
 				}
 				
 				$pdo->commit();
-				return "Objeto 'Carteira' salvo com sucesso.";
+				return "Objeto 'Tipo de Movimento' salvo com sucesso.";
 			} else {
-				throw new Exception("Erro interno ao sistema, ao salvar um objeto 'carteira', necessário informar ao responsável pelo sistema.", 7);
+				throw new Exception("Erro interno ao sistema, ao salvar um objeto 'Tipo de Movimento', necessário informar ao responsável pelo sistema.", 20);
 			}
 		}
 		
-		public function atualizar($carteira) {
+		/**/
+//		create table financas.tbfi_tipoMovimento (
+//			int_codigo, str_nome, chr_tipo, int_indispensavel, str_descricao, chr_ativo
+//		
+//		create table financas.tbfi_tipoMovimento (
+//			int_codigo int(5) not null auto_increment, 
+//			str_nome varchar(45) not null, 
+//			chr_tipo char(1) not null, 							/* 1-positivo, 2-negativo, 3-transferencia*/
+//			int_indispensavel int(1) default 0, 
+//			str_descricao varchar(255) default null, 
+//			chr_ativo char(1) not null,						/* 0-inativa, 1-ativa */
+//			primary key (int_codigo)
+//		);
+		/**/
+		
+/*		public function atualizar($carteira) {
 			$conexao = new conection();
 			$pdo = $conexao -> criaPDO();
 			$pdo -> beginTransaction();
@@ -134,7 +151,7 @@
 			} else {
 				throw new Exception("Erro interno ao sistema, ao ativar/inativar um objeto 'carteira', necessário informar ao responsável pelo sistema.", 11);
 			}
-		}
+		}*/
 		
 	}
 	

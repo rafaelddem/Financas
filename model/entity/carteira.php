@@ -31,9 +31,8 @@
 		}
 		
 		public function setCodigo($codigo) {
-			if (!is_numeric($codigo)) {
-				throw new Exception("Necessário um valor numérico como código.", 1);
-			}
+			if (!is_numeric($codigo)) throw new Exception("Necessário um valor numérico como código.", 1);
+			
 			$this -> codigo = $codigo;
 		}
 		
@@ -44,8 +43,8 @@
 		public function setNome($nome) {
 			if(strlen($nome) < 3 or strlen($nome) >= 30) {
 				throw new Exception("Necessário que o identificador da carteira tenha entre 3 e 30 caracteres.", 2);
-			} else if (preg_match('/[!@#$%¨&*(){}$?<>:;|\/]/', $nome)) {
-				throw new Exception("Não são permitidos caracteres especiais no nome da carteira.", 3);
+			} else if (preg_match('/[!@#$%&*(){}$?<>:;|\/]/', $nome)) {
+				throw new Exception("Não são permitidos caracteres especiais no identificador da carteira.", 3);
 			}
 			$this -> nome = $nome;
 		}
