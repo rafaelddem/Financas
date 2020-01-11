@@ -34,8 +34,11 @@
 		
 		public function buscarPorFiltro($nome, $tipo, $dono, $ativo) {
 			try{
-				$parametros = array("nome" => $nome, "tipo" => $tipo, "dono" => $dono, "ativo" => $ativo);
-				$carteira = new carteira($parametros);
+				$carteira = null;
+				if (isset($nome) or isset($tipo) or isset($dono) or isset($ativo)) {
+					$parametros = array("nome" => $nome, "tipo" => $tipo, "dono" => $dono, "ativo" => $ativo);
+					$carteira = new carteira($parametros);
+				}
 				$dao_carteira = new dao_carteira();
 				return $dao_carteira -> pesquisar($carteira);
 			} catch (Exception $e) {
@@ -46,6 +49,8 @@
 		}
 		
 		public function buscarPorCodigo($codigo) {
+			if (!isset($codigo)) return "É necessário que o código do objeto 'Carteira' seja informado para a busca.";
+			
 			try{
 				$parametros = array("codigo" => $codigo);
 				$carteira = new carteira($parametros);

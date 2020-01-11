@@ -20,9 +20,11 @@
 				$this -> setTipo($parametros["tipo"]);
 			}
 			if (isset($parametros["indispensavel"])) {
-				$this -> setDono($parametros["indispensavel"]);
+				$this -> setIndispensavel($parametros["indispensavel"]);
 			}
-			$this -> setDono($parametros["descricao"]);
+			if (isset($parametros["descricao"])) {
+				$this -> setDescricao($parametros["descricao"]);
+			}
 			if (isset($parametros["ativo"])) {
 				$this -> setAtivo($parametros["ativo"]);
 			}
@@ -45,7 +47,7 @@
 		public function setNome($nome) {
 			if(strlen($nome) < 3 or strlen($nome) >= 45) {
 				throw new Exception("Necessário que o identificador do tipo de movimento tenha entre 3 e 45 caracteres.", 14);
-			} else if (preg_match('/[!@#$%&*(){}$?<>:;|\/]/', $nome)) {
+			} else if (preg_match('/[!@#$%&*{}$?<>:;|\/]/', $nome)) {
 				throw new Exception("Não são permitidos caracteres especiais no identificador do tipo de movimento.", 15);
 			}
 			$this -> nome = $nome;
@@ -57,7 +59,7 @@
 		
 		public function setTipo($tipo) {
 			if ($tipo != 1 and $tipo != 2 and $tipo != 3) {
-				throw new Exception("Identificador de 'Tipo' de carteira não aceito. Favor informar ao responsável pelo sistema.", 16);
+				throw new Exception("Identificador de 'Tipo' de Tipo de Movimento não aceito. Favor informar ao responsável pelo sistema.", 16);
 			}
 			$this -> tipo = $tipo;
 		}
@@ -67,8 +69,8 @@
 		}
 		
 		public function setIndispensavel($indispensavel) {
-			if ($indispensavel != 0 and $indispensavel != 1 and $indispensavel != 2) {
-				throw new Exception("Identificador de 'Indispensavel' de carteira não aceito. Favor informar ao responsável pelo sistema.", 17);
+			if (!in_array($indispensavel, array(0, 1, 2))) {
+				throw new Exception("Identificador de 'Indispensavel' de Tipo de Movimento não aceito. Favor informar ao responsável pelo sistema.", 17);
 			}
 			$this -> indispensavel = $indispensavel;
 		}
@@ -78,7 +80,7 @@
 		}
 		
 		public function setDescricao($descricao) {
-			if (strlen($nome) > 255) {
+			if (strlen($descricao) > 255) {
 				throw new Exception("Descrição do Tipo de Movimento, não deve possuir mais de 255 caracteres.", 18);
 			}
 			$this -> descricao = $descricao;

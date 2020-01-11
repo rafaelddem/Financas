@@ -51,8 +51,8 @@
 				if (isset($dono)) {
 					$sql .= "chr_dono = :dono, ";
 				}
-				$ativo = $carteira->getAtivo() == true;
-				if ($ativo) {
+				$ativo = $carteira->getAtivo();
+				if (isset($ativo)) {
 					$sql .= "chr_ativo = :ativo, ";
 				}
 				$sql = substr($sql, 0, -2)." where int_codigo = :codigo;";
@@ -61,15 +61,17 @@
 				if (isset($nome)) $stmt->bindParam(':nome', $nome,PDO::PARAM_STR);
 				if (isset($tipo)) $stmt->bindParam(':tipo', $tipo,PDO::PARAM_INT);
 				if (isset($dono)) $stmt->bindParam(':dono', $dono,PDO::PARAM_INT);
-				if ($ativo) $stmt->bindParam(':ativo', $ativo,PDO::PARAM_INT);
+				if (isset($ativo)) $stmt->bindParam(':ativo', $ativo,PDO::PARAM_INT);
 				$stmt->bindParam(':codigo', $codigo,PDO::PARAM_INT);
 				if (!$stmt->execute()) {
 					$pdo->rollback();
 					throw new Exception("Erro interno ao sistema, ao atualizar um objeto 'carteira', necessário informar ao responsável pelo sistema.", 10);
 				}
-				
+				$count = $stmt->rowCount();
 				$pdo->commit();
-				return "Objeto 'Carteira' atualizado com sucesso.";
+				$retorno  = "O comando de atualização foi executado com sucesso";
+				$retorno .= ($count == 0) ? ", porém nenhum registro foi alterado." : ".";
+				return $retorno;
 			} else {
 				throw new Exception("Erro interno ao sistema, ao atualizar um objeto 'carteira', necessário informar ao responsável pelo sistema.", 9);
 			}
@@ -80,14 +82,19 @@
 			$pdo = $conexao -> criaPDO();
 			$pdo -> beginTransaction();
 			
-			if ($carteira instanceof Carteira) {
+			$stmt = "";
+			if (!isset($carteira)) {
+				$sql = "select * from financas.tbfi_carteira;";
+				$stmt = $pdo->prepare($sql);
+			} else if ($carteira instanceof Carteira) {
 				$sql = "select * from financas.tbfi_carteira where ";
 				$codigo = $carteira->getCodigo();
 				if (isset($codigo)) {
 					$sql .= "int_codigo = :codigo and ";
 				}
-				$nome = "%".$carteira->getNome()."%";
+				$nome = $carteira->getNome();
 				if (isset($nome)) {
+					$nome = "%".$nome."%";
 					$sql .= "str_nome like :nome and ";
 				}
 				$tipo = $carteira->getTipo();
@@ -98,42 +105,41 @@
 				if (isset($dono)) {
 					$sql .= "chr_dono = :dono and ";
 				}
-				$ativo = $carteira->getAtivo() == true;
-				if ($ativo) {
+				$ativo = $carteira->getAtivo();
+				if (isset($ativo)) {
 					$sql .= "chr_ativo = :ativo and ";
 				}
-				$sql = substr($sql, 0, -4).";";
+				$sql = substr($sql, 0, -5).";";
 				$stmt = $pdo->prepare($sql);
 				if (isset($codigo)) $stmt->bindParam(':codigo', $codigo,PDO::PARAM_INT);
 				if (isset($nome)) $stmt->bindParam(':nome', $nome,PDO::PARAM_STR);
 				if (isset($tipo)) $stmt->bindParam(':tipo', $tipo,PDO::PARAM_INT);
 				if (isset($dono)) $stmt->bindParam(':dono', $dono,PDO::PARAM_INT);
-				if ($ativo) $stmt->bindParam(':ativo', $ativo,PDO::PARAM_INT);
+				if (isset($ativo)) $stmt->bindParam(':ativo', $ativo,PDO::PARAM_INT);
+			} else {
+				throw new Exception("Erro interno ao sistema, ao tentar buscar o(s) objeto(s) de tipo 'Carteira', necessário informar ao responsável pelo sistema.", 11);
+			}
 				
-				if($stmt->execute()){
-					if($stmt->rowCount() > 0){
-						$carteiras = array();
-						while($row = $stmt->fetch(PDO::FETCH_OBJ)){
-							$parametros = array("codigo" => $row->int_codigo, "nome" => $row->str_nome, "tipo" => $row->chr_tipo, "dono" => $row->chr_dono, "ativo" => boolval($row->chr_ativo));
-							$carteira = new Carteira($parametros);
-							array_push($carteiras, $carteira);
-						}
-						return $carteiras;
-					} else {
-						$pdo->rollback();
-						$retorno  = "Não há registro para os filtros pesquisados.";
-						return $retorno;
+			if($stmt->execute()){
+				if($stmt->rowCount() > 0){
+					$carteiras = array();
+					while($row = $stmt->fetch(PDO::FETCH_OBJ)){
+						$parametros = array("codigo" => $row->int_codigo, "nome" => $row->str_nome, "tipo" => $row->chr_tipo, "dono" => $row->chr_dono, "ativo" => boolval($row->chr_ativo));
+						$carteira = new Carteira($parametros);
+						array_push($carteiras, $carteira);
 					}
 				} else {
 					$pdo->rollback();
-					throw new Exception("Erro interno ao sistema, ao buscar o(s) objeto(s) de tipo 'carteira', necessário informar ao responsável pelo sistema.", 12);
+					$retorno  = "Não há registro para os filtros pesquisados.";
+					return $retorno;
 				}
-				
-				$pdo->commit();
-				return "Objeto 'Carteira' salvo com sucesso.";
 			} else {
-				throw new Exception("Erro interno ao sistema, ao ativar/inativar um objeto 'carteira', necessário informar ao responsável pelo sistema.", 11);
+				$pdo->rollback();
+				throw new Exception("Erro interno ao sistema, ao tentar buscar o(s) objeto(s) de tipo 'Carteira', necessário informar ao responsável pelo sistema.", 12);
 			}
+			
+			$pdo->commit();
+			return $carteiras;
 		}
 		
 	}

@@ -47,11 +47,11 @@
 					break;
 				case 11:
 					// Ocorre ao receber uma variável que não seja to tipo 'Carteira', na classe 'dao_carteira' (pesquisar).
-					throw new Exception("Erro interno ao sistema, ao ativar/inativar um objeto 'carteira', necessário informar ao responsável pelo sistema.", 11);
+					throw new Exception("Erro interno ao sistema, ao tentar buscar o(s) objeto(s) de tipo 'Carteira', necessário informar ao responsável pelo sistema.", 11);
 					break;
 				case 12:
-					// Ocorre ao buscar um ou mais registros na tabela 'tbfi_carteira'.
-					throw new Exception("Erro interno ao sistema, ao buscar o(s) objeto(s) de tipo 'carteira', necessário informar ao responsável pelo sistema.", 12);
+					// Ocorre ao tentar buscar um ou mais registros na tabela 'tbfi_carteira'.
+					throw new Exception("Erro interno ao sistema, ao tentar buscar o(s) objeto(s) de tipo 'Carteira', necessário informar ao responsável pelo sistema.", 12);
 					break;
 				case 13:
 					// Ocorre ao tentar inserir um valor não numérico, ao atributo 'código', de um objeto 'tipoMovimento'.
@@ -67,11 +67,11 @@
 					break;
 				case 16:
 					// Ocorre ao tentar inserir um valor que não seja '1', '2' ou '3', ao atributo 'tipo', de um objeto 'tipo de movimento'.
-					throw new Exception("Identificador de 'Tipo' de carteira não aceito. Favor informar ao responsável pelo sistema.", 16);
+					throw new Exception("Identificador de 'Tipo' de Tipo de Movimento não aceito. Favor informar ao responsável pelo sistema.", 16);
 					break;
 				case 17:
 					// Ocorre ao tentar inserir um valor que não seja '0', '1' ou '2', ao atributo 'indispensavel', de um objeto 'tipo de movimento'.
-					throw new Exception("Identificador de 'Indispensavel' de carteira não aceito. Favor informar ao responsável pelo sistema.", 17);
+					throw new Exception("Identificador de 'Indispensavel' de Tipo de Movimento não aceito. Favor informar ao responsável pelo sistema.", 17);
 					break;
 				case 18:
 					// Ocorre ao tentar inserir uma descrição com mais de 255 caracteres, a um objeto 'tipo de movimento'.
@@ -90,20 +90,20 @@
 					throw new Exception("Erro interno ao sistema, ao salvar um objeto 'Tipo de Movimento', necessário informar ao responsável pelo sistema.", 21);
 					break;
 				case 22:
-					// .
-					throw new Exception(".", 22);
+					// Ocorre ao receber uma variável que não seja to tipo 'Tipo de Movimento', na classe 'dao_tipoMovimento' (update).
+					throw new Exception("Erro interno ao sistema, ao atualizar um objeto 'Tipo de Movimento', necessário informar ao responsável pelo sistema.", 22);
 					break;
 				case 23:
-					// .
-					throw new Exception(".", 23);
+					// Ocorre ao tentar executar um comando 'update' na tabela 'tbfi_tipoMovimento'.
+					throw new Exception("Erro interno ao sistema, ao atualizar um objeto 'Tipo de Movimento', necessário informar ao responsável pelo sistema.", 23);
 					break;
 				case 24:
-					// .
-					throw new Exception(".", 24);
+					// Ocorre ao receber uma variável que não seja to tipo 'Tipo de Movimento', na classe 'dao_tipoMovimento' (pesquisar).
+					throw new Exception("Erro interno ao sistema, ao tentar buscar o(s) objeto(s) de tipo 'Tipo de Movimento', necessário informar ao responsável pelo sistema.", 24);
 					break;
 				case 25:
-					// .
-					throw new Exception(".", 25);
+					// Ocorre ao tentar buscar um ou mais registros na tabela 'tbfi_tipoMovimento'.
+					throw new Exception("Erro interno ao sistema, ao tentar buscar o(s) objeto(s) de tipo 'Tipo de Movimento', necessário informar ao responsável pelo sistema.", 25);
 					break;
 				case 26:
 					// .

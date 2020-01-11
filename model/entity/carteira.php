@@ -43,7 +43,7 @@
 		public function setNome($nome) {
 			if(strlen($nome) < 3 or strlen($nome) >= 30) {
 				throw new Exception("Necessário que o identificador da carteira tenha entre 3 e 30 caracteres.", 2);
-			} else if (preg_match('/[!@#$%&*(){}$?<>:;|\/]/', $nome)) {
+			} else if (preg_match('/[!@#$%&*{}$?<>:;|\/]/', $nome)) {
 				throw new Exception("Não são permitidos caracteres especiais no identificador da carteira.", 3);
 			}
 			$this -> nome = $nome;

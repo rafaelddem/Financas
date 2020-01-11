@@ -2,7 +2,7 @@
 	include_once '..\model\dao\conection.php';
 	include_once '..\model\entity\tipoMovimento.php';
 	
-	class dao_carteira {
+	class dao_tipoMovimento {
 		
 		public function salvar($tipoMovimento) {
 			$conexao = new conection();
@@ -15,12 +15,12 @@
 				$tipo = $tipoMovimento->getTipo();
 				$indispensavel = $tipoMovimento->getIndispensavel();
 				$descricao = $tipoMovimento->getDescricao();
-				$ativo = $tipoMovimento->getAtivo() == true;
-				$stmt->bindParam(':nome', $param1,PDO::PARAM_STR);
-				$stmt->bindParam(':tipo', $param2,PDO::PARAM_INT);
-				$stmt->bindParam(':indispensavel', $param3,PDO::PARAM_INT);
-				$stmt->bindParam(':descricao', $param4,PDO::PARAM_STR);
-				$stmt->bindParam(':ativo', $param4,PDO::PARAM_INT);
+				$ativo = $tipoMovimento->getAtivo();
+				$stmt->bindParam(':nome', $nome,PDO::PARAM_STR);
+				$stmt->bindParam(':tipo', $tipo,PDO::PARAM_INT);
+				$stmt->bindParam(':indispensavel', $indispensavel,PDO::PARAM_INT);
+				$stmt->bindParam(':descricao', $descricao,PDO::PARAM_STR);
+				$stmt->bindParam(':ativo', $ativo,PDO::PARAM_INT);
 
 				if (!$stmt->execute()) {
 					$pdo->rollback();
@@ -34,124 +34,126 @@
 			}
 		}
 		
-		/**/
-//		create table financas.tbfi_tipoMovimento (
-//			int_codigo, str_nome, chr_tipo, int_indispensavel, str_descricao, chr_ativo
-//		
-//		create table financas.tbfi_tipoMovimento (
-//			int_codigo int(5) not null auto_increment, 
-//			str_nome varchar(45) not null, 
-//			chr_tipo char(1) not null, 							/* 1-positivo, 2-negativo, 3-transferencia*/
-//			int_indispensavel int(1) default 0, 
-//			str_descricao varchar(255) default null, 
-//			chr_ativo char(1) not null,						/* 0-inativa, 1-ativa */
-//			primary key (int_codigo)
-//		);
-		/**/
-		
-/*		public function atualizar($carteira) {
+		public function atualizar($tipoMovimento) {
 			$conexao = new conection();
 			$pdo = $conexao -> criaPDO();
 			$pdo -> beginTransaction();
 			
-			if ($carteira instanceof Carteira) {
-				$sql = "update tbfi_carteira set ";
-				$nome = $carteira->getNome();
+			if ($tipoMovimento instanceof TipoMovimento) {
+				$sql = "update tbfi_tipoMovimento set ";
+				$nome = $tipoMovimento->getNome();
 				if (isset($nome)) {
 					$sql .= "str_nome = :nome, ";
 				}
-				$tipo = $carteira->getTipo();
+				$tipo = $tipoMovimento->getTipo();
 				if (isset($tipo)) {
 					$sql .= "chr_tipo = :tipo, ";
 				}
-				$dono = $carteira->getDono();
-				if (isset($dono)) {
-					$sql .= "chr_dono = :dono, ";
+				$indispensavel = $tipoMovimento->getIndispensavel();
+				if (isset($indispensavel)) {
+					$sql .= "int_indispensavel = :indispensavel, ";
 				}
-				$ativo = $carteira->getAtivo() == true;
-				if ($ativo) {
+				$descricao = $tipoMovimento->getDescricao();
+				if (isset($descricao)) {
+					$sql .= "str_descricao = :descricao, ";
+				}
+				$ativo = $tipoMovimento->getAtivo();
+				if (isset($ativo)) {
 					$sql .= "chr_ativo = :ativo, ";
 				}
 				$sql = substr($sql, 0, -2)." where int_codigo = :codigo;";
 				$stmt = $pdo->prepare($sql);
-				$codigo = $carteira->getCodigo();
+				$codigo = $tipoMovimento->getCodigo();
 				if (isset($nome)) $stmt->bindParam(':nome', $nome,PDO::PARAM_STR);
 				if (isset($tipo)) $stmt->bindParam(':tipo', $tipo,PDO::PARAM_INT);
-				if (isset($dono)) $stmt->bindParam(':dono', $dono,PDO::PARAM_INT);
-				if ($ativo) $stmt->bindParam(':ativo', $ativo,PDO::PARAM_INT);
+				if (isset($indispensavel)) $stmt->bindParam(':indispensavel', $indispensavel,PDO::PARAM_INT);
+				if (isset($descricao)) $stmt->bindParam(':descricao', $descricao,PDO::PARAM_INT);
+				if (isset($ativo)) $stmt->bindParam(':ativo', $ativo,PDO::PARAM_INT);
 				$stmt->bindParam(':codigo', $codigo,PDO::PARAM_INT);
 				if (!$stmt->execute()) {
 					$pdo->rollback();
-					throw new Exception("Erro interno ao sistema, ao atualizar um objeto 'carteira', necessário informar ao responsável pelo sistema.", 10);
+					throw new Exception("Erro interno ao sistema, ao atualizar um objeto 'Tipo de Movimento', necessário informar ao responsável pelo sistema.", 23);
 				}
-				
+				$count = $stmt->rowCount();
 				$pdo->commit();
-				return "Objeto 'Carteira' atualizado com sucesso.";
+				$retorno  = "O comando de atualização foi executado com sucesso";
+				$retorno .= ($count == 0) ? ", porém nenhum registro foi alterado." : ".";
+				return $retorno;
 			} else {
-				throw new Exception("Erro interno ao sistema, ao atualizar um objeto 'carteira', necessário informar ao responsável pelo sistema.", 9);
+				throw new Exception("Erro interno ao sistema, ao atualizar um objeto 'Tipo de Movimento', necessário informar ao responsável pelo sistema.", 22);
 			}
 		}
 		
-		public function pesquisar($carteira) {
+		public function pesquisar($tipoMovimento) {
 			$conexao = new conection();
 			$pdo = $conexao -> criaPDO();
 			$pdo -> beginTransaction();
 			
-			if ($carteira instanceof Carteira) {
-				$sql = "select * from financas.tbfi_carteira where ";
-				$codigo = $carteira->getCodigo();
+			$stmt = "";
+			if (!isset($tipoMovimento)) {
+				$sql = "select * from financas.tbfi_tipoMovimento;";
+				$stmt = $pdo->prepare($sql);
+			} else if ($tipoMovimento instanceof TipoMovimento) {
+				$sql = "select * from financas.tbfi_tipoMovimento where ";
+				$codigo = $tipoMovimento->getCodigo();
 				if (isset($codigo)) {
 					$sql .= "int_codigo = :codigo and ";
 				}
-				$nome = "%".$carteira->getNome()."%";
+				$nome = $tipoMovimento->getNome();
 				if (isset($nome)) {
+					$nome = "%".$nome."%";
 					$sql .= "str_nome like :nome and ";
 				}
-				$tipo = $carteira->getTipo();
+				$tipo = $tipoMovimento->getTipo();
 				if (isset($tipo)) {
 					$sql .= "chr_tipo = :tipo and ";
 				}
-				$dono = $carteira->getDono();
-				if (isset($dono)) {
-					$sql .= "chr_dono = :dono and ";
+				$indispensavel = $tipoMovimento->getIndispensavel();
+				if (isset($indispensavel)) {
+					$sql .= "int_indispensavel = :indispensavel and ";
 				}
-				$ativo = $carteira->getAtivo() == true;
-				if ($ativo) {
+				$descricao = $tipoMovimento->getDescricao();
+				if (isset($descricao)) {
+					$descricao = "%".$descricao."%";
+					$sql .= "str_descricao like :descricao and ";
+				}
+				$ativo = $tipoMovimento->getAtivo();
+				if (isset($ativo)) {
 					$sql .= "chr_ativo = :ativo and ";
 				}
-				$sql = substr($sql, 0, -4).";";
+				$sql = substr($sql, 0, -5).";";
 				$stmt = $pdo->prepare($sql);
 				if (isset($codigo)) $stmt->bindParam(':codigo', $codigo,PDO::PARAM_INT);
 				if (isset($nome)) $stmt->bindParam(':nome', $nome,PDO::PARAM_STR);
 				if (isset($tipo)) $stmt->bindParam(':tipo', $tipo,PDO::PARAM_INT);
-				if (isset($dono)) $stmt->bindParam(':dono', $dono,PDO::PARAM_INT);
-				if ($ativo) $stmt->bindParam(':ativo', $ativo,PDO::PARAM_INT);
+				if (isset($indispensavel)) $stmt->bindParam(':indispensavel', $indispensavel,PDO::PARAM_INT);
+				if (isset($descricao)) $stmt->bindParam(':descricao', $descricao."%",PDO::PARAM_STR);
+				if (isset($ativo)) $stmt->bindParam(':ativo', $ativo,PDO::PARAM_INT);
+			} else {
+				throw new Exception("Erro interno ao sistema, ao tentar buscar o(s) objeto(s) de tipo 'Tipo de Movimento', necessário informar ao responsável pelo sistema.", 24);
+			}
 				
-				if($stmt->execute()){
-					if($stmt->rowCount() > 0){
-						$carteiras = array();
-						while($row = $stmt->fetch(PDO::FETCH_OBJ)){
-							$parametros = array("codigo" => $row->int_codigo, "nome" => $row->str_nome, "tipo" => $row->chr_tipo, "dono" => $row->chr_dono, "ativo" => boolval($row->chr_ativo));
-							$carteira = new Carteira($parametros);
-							array_push($carteiras, $carteira);
-						}
-						return $carteiras;
-					} else {
-						$pdo->rollback();
-						$retorno  = "Não há registro para os filtros pesquisados.";
-						return $retorno;
+			if($stmt->execute()){
+				if($stmt->rowCount() > 0) {
+					$carteiras = array();
+					while($row = $stmt->fetch(PDO::FETCH_OBJ)){
+						$parametros = array("codigo" => $row->int_codigo, "nome" => $row->str_nome, "tipo" => $row->chr_tipo, "indispensavel" => $row->int_indispensavel, "descricao" => $row->str_descricao, "ativo" => boolval($row->chr_ativo));
+						$tipoMovimento = new tipoMovimento($parametros);
+						array_push($carteiras, $tipoMovimento);
 					}
 				} else {
 					$pdo->rollback();
-					throw new Exception("Erro interno ao sistema, ao buscar o(s) objeto(s) de tipo 'carteira', necessário informar ao responsável pelo sistema.", 12);
+					$retorno  = "Não há registro para os filtros pesquisados.";
+					return $retorno;
 				}
-				
-				$pdo->commit();
-				return "Objeto 'Carteira' salvo com sucesso.";
 			} else {
-				throw new Exception("Erro interno ao sistema, ao ativar/inativar um objeto 'carteira', necessário informar ao responsável pelo sistema.", 11);
+				$pdo->rollback();
+				throw new Exception("Erro interno ao sistema, ao tentar buscar o(s) objeto(s) de tipo 'Tipo de Movimento', necessário informar ao responsável pelo sistema.", 25);
 			}
-		}*/
+			
+			$pdo->commit();
+			return $carteiras;
+		}
 		
 	}
 	
