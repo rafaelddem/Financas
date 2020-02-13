@@ -103,11 +103,11 @@
 		
 		public function inativar($codigo) {
 			try{
-				$carteira = new carteira(array("codigo" => $codigo, "ativo" => false));
-				$dao_carteira = new dao_carteira();
-				return $dao_carteira -> atualizar($carteira);
+				$tipoMovimento = new tipoMovimento(array("codigo" => $codigo, "ativo" => false));
+				$dao_tipoMovimento = new dao_tipoMovimento();
+				return $dao_tipoMovimento -> atualizar($tipoMovimento);
 			} catch (Exception $e) {
-				$retorno  = "Erro ao inativar o objeto 'Carteira' (Código do erro: ".$e -> getCode().").<br>";
+				$retorno  = "Erro ao inativar o objeto 'Tipo de Movimento' (Código do erro: ".$e -> getCode().").<br>";
 				$retorno .= $e -> getMessage();
 				return $retorno;
 			}

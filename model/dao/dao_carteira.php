@@ -84,10 +84,10 @@
 			
 			$stmt = "";
 			if (!isset($carteira)) {
-				$sql = "select * from financas.tbfi_carteira;";
+				$sql = "select * from tbfi_carteira;";
 				$stmt = $pdo->prepare($sql);
 			} else if ($carteira instanceof Carteira) {
-				$sql = "select * from financas.tbfi_carteira where ";
+				$sql = "select * from tbfi_carteira where ";
 				$codigo = $carteira->getCodigo();
 				if (isset($codigo)) {
 					$sql .= "int_codigo = :codigo and ";

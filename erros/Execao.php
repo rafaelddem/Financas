@@ -106,45 +106,47 @@
 					throw new Exception("Erro interno ao sistema, ao tentar buscar o(s) objeto(s) de tipo 'Tipo de Movimento', necessário informar ao responsável pelo sistema.", 25);
 					break;
 				case 26:
-					// .
-					throw new Exception(".", 26);
+					// Ocorre ao tentar inserir um valor não numérico, ao atributo 'código', de um objeto 'forma de pagamento'.
+					throw new Exception("Necessário um valor numérico como código.", 26);
 					break;
 				case 27:
-					// .
-					throw new Exception(".", 27);
+					// Ocorre ao tentar inserir um valor que não possua entre 3 e 45 caracteres, ao atributo 'nome', de um objeto 'forma de pagamento'.
+					throw new Exception("Necessário que o identificador do tipo de movimento tenha entre 3 e 45 caracteres.", 27);
 					break;
 				case 28:
-					// .
-					throw new Exception(".", 28);
+					// Ocorre ao tentar inserir um valor que possua algum caractere especial, ao atributo 'nome', de um objeto 'forma de pagamento'.
+					throw new Exception("Não são permitidos caracteres especiais no identificador do forma de pagamento.", 28);
 					break;
 				case 29:
-					// .
-					throw new Exception(".", 29);
+					// Ocorre ao tentar inserir um valor que não seja booleano, ao atributo 'ativo', de um objeto 'forma de pagamento'.
+					throw new Exception("Erro desconhecido ao marcar o tipo de movimento como ativo/inativo. Favor informar ao responsável pelo sistema.", 29);
 					break;
 				case 30:
-					// .
-					throw new Exception(".", 30);
+					// Ocorre ao receber uma variável que não seja do tipo 'Forma de Pagamento', na classe 'dao_formaPagamento' (insert).
+					throw new Exception("Erro interno ao sistema, ao salvar um objeto 'Forma de Pagamento', necessário informar ao responsável pelo sistema.", 30);
 					break;
 				case 31:
-					// .
-					throw new Exception(".", 31);
+					// Ocorre ao tentar executar um comando 'insert' na tabela 'tbfi_formaPagamento'.
+					throw new Exception("Erro interno ao sistema, ao salvar um objeto 'Forma de Pagamento', necessário informar ao responsável pelo sistema.", 31);
 					break;
 				case 32:
-					// .
-					throw new Exception(".", 32);
+					// Ocorre ao receber uma variável que não seja to tipo 'Forma de Pagamento', na classe 'dao_formaPagamento' (update).
+					throw new Exception("Erro interno ao sistema, ao atualizar um objeto 'Forma de Pagamento', necessário informar ao responsável pelo sistema.", 32);
 					break;
 				case 33:
-					// .
-					throw new Exception(".", 33);
+					// Ocorre ao tentar executar um comando 'update' na tabela 'tbfi_formaPagamento'.
+					throw new Exception("Erro interno ao sistema, ao atualizar um objeto 'Forma de Pagamento', necessário informar ao responsável pelo sistema.", 33);
 					break;
 				case 34:
-					// .
-					throw new Exception(".", 34);
+					// Ocorre ao receber uma variável que não seja to tipo 'Forma de Pagamento', na classe 'dao_formaPagamento' (pesquisar).
+					throw new Exception("Erro interno ao sistema, ao tentar buscar o(s) objeto(s) de tipo 'Forma de Pagamento', necessário informar ao responsável pelo sistema.", 34);
 					break;
 				case 35:
-					// .
-					throw new Exception(".", 35);
+					// Ocorre ao tentar buscar um ou mais registros na tabela 'tbfi_formaPagamento'.
+					throw new Exception("Erro interno ao sistema, ao tentar buscar o(s) objeto(s) de tipo 'Forma de Pagamento', necessário informar ao responsável pelo sistema.", 35);
 					break;
+					
+					
 				case 36:
 					// .
 					throw new Exception(".", 36);

@@ -91,10 +91,10 @@
 			
 			$stmt = "";
 			if (!isset($tipoMovimento)) {
-				$sql = "select * from financas.tbfi_tipoMovimento;";
+				$sql = "select * from tbfi_tipoMovimento;";
 				$stmt = $pdo->prepare($sql);
 			} else if ($tipoMovimento instanceof TipoMovimento) {
-				$sql = "select * from financas.tbfi_tipoMovimento where ";
+				$sql = "select * from tbfi_tipoMovimento where ";
 				$codigo = $tipoMovimento->getCodigo();
 				if (isset($codigo)) {
 					$sql .= "int_codigo = :codigo and ";
@@ -135,11 +135,11 @@
 				
 			if($stmt->execute()){
 				if($stmt->rowCount() > 0) {
-					$carteiras = array();
+					$tiposMovimento = array();
 					while($row = $stmt->fetch(PDO::FETCH_OBJ)){
 						$parametros = array("codigo" => $row->int_codigo, "nome" => $row->str_nome, "tipo" => $row->chr_tipo, "indispensavel" => $row->int_indispensavel, "descricao" => $row->str_descricao, "ativo" => boolval($row->chr_ativo));
 						$tipoMovimento = new tipoMovimento($parametros);
-						array_push($carteiras, $tipoMovimento);
+						array_push($tiposMovimento, $tipoMovimento);
 					}
 				} else {
 					$pdo->rollback();
@@ -152,7 +152,7 @@
 			}
 			
 			$pdo->commit();
-			return $carteiras;
+			return $tiposMovimento;
 		}
 		
 	}
