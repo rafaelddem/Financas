@@ -1,5 +1,10 @@
 <?php
-	include_once '..\model\dao\dao_formaPagamento.php';
+
+	namespace rafael\financas\model\bo;
+
+	include_once '..\autoload.php';
+
+	use rafael\financas\model\dao\dao_formaPagamento;
 	
 	class bo_formaPagamento {
 		

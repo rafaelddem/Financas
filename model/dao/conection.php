@@ -1,5 +1,10 @@
 <?php
-	class conection{
+
+	namespace rafael\financas\model\dao;
+
+	use \PDO;
+
+	class Conection{
 		
 		private $banco, $servidor, $usuario, $senha;
 		
@@ -7,7 +12,7 @@
 			$this -> banco = "financas";
 			$this -> servidor = "127.0.0.1";
 			$this -> usuario = "root";
-			$this -> senha = "";
+			$this -> senha = "root";
 		}
 		
 		public function setBanco(){
@@ -43,7 +48,7 @@
 		}
 		
 		public function criaPDO(){
-			return new PDO("mysql:host=".$this -> servidor.";dbname=".$this -> banco, $this -> usuario, $this -> senha);
+			return new PDO("mysql:host=" . $this -> servidor . ";dbname=" . $this -> banco, $this -> usuario, $this -> senha);
 		}
 		
 	}

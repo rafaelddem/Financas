@@ -1,6 +1,12 @@
 <?php
-	include_once '..\model\dao\conection.php';
-	include_once '..\model\entity\formaPagamento.php';
+
+	namespace rafael\financas\model\dao;
+
+	include_once '..\autoload.php';
+
+	use \PDO;
+	use rafael\financas\model\dao\Conection;
+	use rafael\financas\model\entity\FormaPagamento;
 	
 	class dao_formaPagamento {
 		

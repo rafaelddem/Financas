@@ -1,7 +1,12 @@
 <?php
-	include_once '..\model\bo\bo_carteira.php';
+
+	namespace rafael\financas\controler;
+
+	include_once '..\autoload.php';
+
+	use rafael\financas\model\bo\bo_carteira;
 	
-	$bo_carteira = new BO_carteira();
+	$bo_carteira = new bo_carteira();
 //	$arrayTeste = array("codigo" => "1", "nome" => "Identificador");
 //	echo $arrayTeste["codigo"]."<br>";
 //	echo var_dump($arrayTeste)."<br>";

@@ -1,5 +1,10 @@
 <?php
-	include_once '..\model\bo\bo_formaPagamento.php';
+
+	namespace rafael\financas\controler;
+
+	include_once '..\autoload.php';
+
+	use rafael\financas\model\bo\bo_formaPagamento;
 	
 	$bo_formaPagamento = new bo_formaPagamento();
 	

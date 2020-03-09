@@ -1,11 +1,17 @@
 <?php
-	include_once '..\model\dao\conection.php';
-	include_once '..\model\entity\carteira.php';
-	
+
+	namespace rafael\financas\model\dao;
+
+	include_once '..\autoload.php';
+
+	use \PDO;
+	use rafael\financas\model\dao\Conection;
+	use rafael\financas\model\entity\Carteira;
+
 	class dao_carteira {
 		
 		public function salvar($carteira) {
-			$conexao = new conection();
+			$conexao = new Conection();
 			$pdo = $conexao -> criaPDO();
 			$pdo -> beginTransaction();
 			
@@ -33,7 +39,7 @@
 		}
 		
 		public function atualizar($carteira) {
-			$conexao = new conection();
+			$conexao = new Conection();
 			$pdo = $conexao -> criaPDO();
 			$pdo -> beginTransaction();
 			

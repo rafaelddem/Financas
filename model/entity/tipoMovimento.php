@@ -1,5 +1,7 @@
 <?php
 
+	namespace rafael\financas\model\entity;
+
 	class tipoMovimento{
 		
 		private $codigo;
