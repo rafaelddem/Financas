@@ -4,14 +4,15 @@
 
 	include_once '..\autoload.php';
 
+	use \Exception;
+	use rafael\financas\model\entity\formaPagamento;
 	use rafael\financas\model\dao\dao_formaPagamento;
 	
 	class bo_formaPagamento {
 		
-		public function salvar($nome, $ativo) {
+		public function salvar(string $nome, bool $ativo) {
 			try{
-				$parametros = array("nome" => $nome, "ativo" => $ativo);
-				$formaPagamento = new formaPagamento($parametros);
+				$formaPagamento = new formaPagamento(0, $nome, $ativo);
 				$dao_formaPagamento = new dao_formaPagamento();
 				return $dao_formaPagamento -> salvar($formaPagamento);
 			} catch (Exception $e) {
@@ -21,13 +22,10 @@
 			}
 		}
 		
-		public function atualizar($codigo, $nome, $ativo) {
-			if (!isset($codigo)) return "É necessário que o código do objeto 'Forma de Pagamento' seja informado para a atualização.";
-			if (!(isset($nome) or isset($ativo))) return "Não foi informado nenhum dado para atualização.";
+		public function atualizar(int $codigo, string $nome, bool $ativo) {
 			
 			try{
-				$parametros = array("codigo" => $codigo, "nome" => $nome, "ativo" => $ativo);
-				$formaPagamento = new formaPagamento($parametros);
+				$formaPagamento = new formaPagamento($codigo, $nome, $ativo);
 				$dao_formaPagamento = new dao_formaPagamento();
 				return $dao_formaPagamento -> atualizar($formaPagamento);
 			} catch (Exception $e) {
@@ -37,15 +35,11 @@
 			}
 		}
 		
-		public function buscarPorFiltro($nome, $ativo) {
+		public function buscarPorFiltro(string $nome = null, bool $ativo = null) {
 			try{
-				$formaPagamento = null;
-				if (isset($nome) or isset($ativo)) {
-					$parametros = array("nome" => $nome, "ativo" => $ativo);
-					$formaPagamento = new formaPagamento($parametros);
-				}
+				$parametros = array("nome" => $nome, "ativo" => $ativo);
 				$dao_formaPagamento = new dao_formaPagamento();
-				return $dao_formaPagamento -> pesquisar($formaPagamento);
+				return $dao_formaPagamento -> pesquisar($parametros);
 			} catch (Exception $e) {
 				$retorno  = "Erro ao buscar o(s) objeto(s) 'Forma de Pagamento' (Código do erro: ".$e -> getCode().").<br>";
 				$retorno .= $e -> getMessage();
@@ -53,14 +47,11 @@
 			}
 		}
 		
-		public function buscarPorCodigo($codigo) {
-			if (!isset($codigo)) return "É necessário que o código do objeto 'Forma de Pagamento' seja informado para a busca.";
-			
+		public function buscarPorCodigo(int $codigo) {
 			try{
 				$parametros = array("codigo" => $codigo);
-				$formaPagamento = new formaPagamento($parametros);
 				$dao_formaPagamento = new dao_formaPagamento();
-				return $dao_formaPagamento -> pesquisar($formaPagamento);
+				return $dao_formaPagamento -> pesquisar($parametros);
 			} catch (Exception $e) {
 				$retorno  = "Erro ao buscar o(s) objeto(s) 'Forma de Pagamento' (Código do erro: ".$e -> getCode().").<br>";
 				$retorno .= $e -> getMessage();
@@ -71,9 +62,8 @@
 		public function buscarAtivos() {
 			try{
 				$parametros = array("ativo" => true);
-				$formaPagamento = new formaPagamento($parametros);
 				$dao_formaPagamento = new dao_formaPagamento();
-				return $dao_formaPagamento -> pesquisar($formaPagamento);
+				return $dao_formaPagamento -> pesquisar($parametros);
 			} catch (Exception $e) {
 				$retorno  = "Erro ao buscar o(s) objeto(s) 'Forma de Pagamento' (Código do erro: ".$e -> getCode().").<br>";
 				$retorno .= $e -> getMessage();
@@ -84,35 +74,10 @@
 		public function buscarInativos() {
 			try{
 				$parametros = array("ativo" => false);
-				$formaPagamento = new formaPagamento($parametros);
 				$dao_formaPagamento = new dao_formaPagamento();
-				return $dao_formaPagamento -> pesquisar($formaPagamento);
+				return $dao_formaPagamento -> pesquisar($parametros);
 			} catch (Exception $e) {
 				$retorno  = "Erro ao buscar o(s) objeto(s) 'Forma de Pagamento' (Código do erro: ".$e -> getCode().").<br>";
-				$retorno .= $e -> getMessage();
-				return $retorno;
-			}
-		}
-		
-		public function ativar($codigo) {
-			try{
-				$formaPagamento = new formaPagamento(array("codigo" => $codigo, "ativo" => true));
-				$dao_formaPagamento = new dao_formaPagamento();
-				return $dao_formaPagamento -> atualizar($formaPagamento);
-			} catch (Exception $e) {
-				$retorno  = "Erro ao ativar o objeto 'Forma de Pagamento' (Código do erro: ".$e -> getCode().").<br>";
-				$retorno .= $e -> getMessage();
-				return $retorno;
-			}
-		}
-		
-		public function inativar($codigo) {
-			try{
-				$formaPagamento = new formaPagamento(array("codigo" => $codigo, "ativo" => false));
-				$dao_formaPagamento = new dao_formaPagamento();
-				return $dao_formaPagamento -> atualizar($formaPagamento);
-			} catch (Exception $e) {
-				$retorno  = "Erro ao inativar o objeto 'Forma de Pagamento' (Código do erro: ".$e -> getCode().").<br>";
 				$retorno .= $e -> getMessage();
 				return $retorno;
 			}

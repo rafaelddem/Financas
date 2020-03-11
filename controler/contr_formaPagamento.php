@@ -7,16 +7,17 @@
 	use rafael\financas\model\bo\bo_formaPagamento;
 	
 	$bo_formaPagamento = new bo_formaPagamento();
-	
+	echo "<pre>";
 //	echo $bo_formaPagamento -> salvar("Nome grande", true);
-//	echo $bo_formaPagamento -> atualizar(8, "Outro Nome", null);
+//	echo $bo_formaPagamento -> atualizar(10, "Outro Nome", null);
 //	echo $bo_formaPagamento -> ativar(8);
 //	echo $bo_formaPagamento -> inativar(8);
 
-//	$arrayTipoMovimento = $bo_formaPagamento -> buscarPorFiltro("gasolina", null, null, null, null);
-	$arrayTipoMovimento = $bo_formaPagamento -> buscarPorFiltro(null, null, null, null, null);
-//	$arrayTipoMovimento = $bo_formaPagamento -> buscarPorCodigo(15);
-//	$arrayTipoMovimento = $bo_formaPagamento -> buscarAtivos();
+//	$arrayTipoMovimento = $bo_formaPagamento -> buscarPorFiltro("Gasolina", null);
+//	$arrayTipoMovimento = $bo_formaPagamento -> buscarPorFiltro("Din", null);
+//	$arrayTipoMovimento = $bo_formaPagamento -> buscarPorFiltro(null, true);
+//	$arrayTipoMovimento = $bo_formaPagamento -> buscarPorCodigo(10);
+	$arrayTipoMovimento = $bo_formaPagamento -> buscarAtivos();
 //	$arrayTipoMovimento = $bo_formaPagamento -> buscarInativos();
 	if (is_array($arrayTipoMovimento)) {
 		foreach ($arrayTipoMovimento as $tipoMovimento) {
@@ -26,6 +27,6 @@
 	} else {
 		echo $arrayTipoMovimento;
 	}
-
+	echo "<pre>";
 	
 ?>

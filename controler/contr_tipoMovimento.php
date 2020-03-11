@@ -8,8 +8,9 @@
 	
 	$bo_tipoMovimento = new BO_tipoMovimento();
 	
-//	echo $bo_tipoMovimento -> salvar("Nome grande", 1, 1, null, false);
-//	echo $bo_tipoMovimento -> atualizar(47, "Outro Nome 2", null, null, null, null);
+	echo "<pre>";
+//	echo $bo_tipoMovimento -> salvar("Nome grande", 1, true, null, false);
+//	echo $bo_tipoMovimento -> atualizar(36, "Outro Nome 2", 2, true, null, false);
 //	echo $bo_tipoMovimento -> atualizar(34, "Nome pah de boas", null, null, true);
 //	echo $bo_tipoMovimento -> atualizar(50, null, null, null, null, false);
 //	echo $bo_tipoMovimento -> ativar(58);
@@ -28,6 +29,6 @@
 	} else {
 		echo $arrayTipoMovimento;
 	}
-
+	echo "</pre>";
 	
 ?>

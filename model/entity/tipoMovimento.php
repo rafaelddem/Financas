@@ -2,51 +2,39 @@
 
 	namespace rafael\financas\model\entity;
 
+	use \Exception;
+
 	class tipoMovimento{
 		
-		private $codigo;
-		private $nome;
-		private $tipo;
-		private $indispensavel;
-		private $descricao;
-		private $ativo;
+		private int $codigo;
+		private string $nome;
+		private int $tipo;
+		private bool $indispensavel;
+		private string $descricao;
+		private bool $ativo;
 		
-		public function __construct($parametros){
-			if (isset($parametros["codigo"])) {
-				$this -> setCodigo($parametros["codigo"]);
-			}
-			if (isset($parametros["nome"])) {
-				$this -> setNome($parametros["nome"]);
-			}
-			if (isset($parametros["tipo"])) {
-				$this -> setTipo($parametros["tipo"]);
-			}
-			if (isset($parametros["indispensavel"])) {
-				$this -> setIndispensavel($parametros["indispensavel"]);
-			}
-			if (isset($parametros["descricao"])) {
-				$this -> setDescricao($parametros["descricao"]);
-			}
-			if (isset($parametros["ativo"])) {
-				$this -> setAtivo($parametros["ativo"]);
-			}
+		public function __construct(int $codigo, string $nome, int $tipo, bool $indispensavel, string $descricao = null, bool $ativo){
+			$this -> setCodigo($codigo);
+			$this -> setNome($nome);
+			$this -> setTipo($tipo);
+			$this -> setIndispensavel($indispensavel);
+			$this -> setDescricao($descricao);
+			$this -> setAtivo($ativo);
 		}
 		
-		public function getCodigo(){
+		public function getCodigo() : int {
 			return $this -> codigo;
 		}
 		
-		public function setCodigo($codigo){
-			if (!is_numeric($codigo)) throw new Exception("Necessário um valor numérico como código.", 13);
-			
+		public function setCodigo(int $codigo) {
 			$this -> codigo = $codigo;
 		}
 		
-		public function getNome() {
+		public function getNome() : string {
 			return $this -> nome;
 		}
 		
-		public function setNome($nome) {
+		public function setNome(string $nome) {
 			if(strlen($nome) < 3 or strlen($nome) >= 45) {
 				throw new Exception("Necessário que o identificador do tipo de movimento tenha entre 3 e 45 caracteres.", 14);
 			} else if (preg_match('/[!@#$%&*{}$?<>:;|\/]/', $nome)) {
@@ -55,47 +43,45 @@
 			$this -> nome = $nome;
 		}
 		
-		public function getTipo() {
+		public function getTipo() : int {
 			return $this -> tipo;
 		}
 		
-		public function setTipo($tipo) {
-			if ($tipo != 1 and $tipo != 2 and $tipo != 3) {
+		public function setTipo(int $tipo) {
+			if (!in_array($tipo, array(1, 2, 3))) {
 				throw new Exception("Identificador de 'Tipo' de Tipo de Movimento não aceito. Favor informar ao responsável pelo sistema.", 16);
 			}
 			$this -> tipo = $tipo;
 		}
 		
-		public function getIndispensavel() {
+		public function getIndispensavel() : bool {
 			return $this -> indispensavel;
 		}
 		
-		public function setIndispensavel($indispensavel) {
+		public function setIndispensavel(bool $indispensavel) {
 			if (!in_array($indispensavel, array(0, 1, 2))) {
 				throw new Exception("Identificador de 'Indispensavel' de Tipo de Movimento não aceito. Favor informar ao responsável pelo sistema.", 17);
 			}
 			$this -> indispensavel = $indispensavel;
 		}
 		
-		public function getDescricao() {
+		public function getDescricao() : string {
 			return $this -> descricao;
 		}
 		
-		public function setDescricao($descricao) {
+		public function setDescricao(string $descricao = null) {
 			if (strlen($descricao) > 255) {
 				throw new Exception("Descrição do Tipo de Movimento, não deve possuir mais de 255 caracteres.", 18);
 			}
-			$this -> descricao = $descricao;
+
+			$this -> descricao = (isset($descricao)) ? $descricao : "";
 		}
 		
-		public function getAtivo() {
+		public function getAtivo() : bool {
 			return $this -> ativo;
 		}
 		
-		public function setAtivo($ativo) {
-			if (!is_bool($ativo)) {
-				throw new Exception("Erro desconhecido ao marcar o tipo de movimento como ativo/inativo. Favor informar ao responsável pelo sistema.", 19);
-			}
+		public function setAtivo(bool $ativo) {
 			$this -> ativo = $ativo;
 		}
 		

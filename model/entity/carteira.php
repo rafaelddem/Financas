@@ -2,47 +2,37 @@
 	
 	namespace rafael\financas\model\entity;
 
+	use \Exception;
+
 	class Carteira{
 		
-		private $codigo;
-		private $nome;
-		private $tipo;
-		private $dono;
-		private $ativo;
+		private int $codigo;
+		private string $nome;
+		private int $tipo;
+		private int $dono;
+		private bool $ativo;
 		
-		public function __construct($parametros) {
-			if (isset($parametros["codigo"])) {
-				$this -> setCodigo($parametros["codigo"]);
-			}
-			if (isset($parametros["nome"])) {
-				$this -> setNome($parametros["nome"]);
-			}
-			if (isset($parametros["tipo"])) {
-				$this -> setTipo($parametros["tipo"]);
-			}
-			if (isset($parametros["dono"])) {
-				$this -> setDono($parametros["dono"]);
-			}
-			if (isset($parametros["ativo"])) {
-				$this -> setAtivo($parametros["ativo"]);
-			}
+		public function __construct(int $codigo, string $nome, int $tipo = 3, int $dono = 1, bool $ativo) {
+			$this -> setCodigo($codigo);
+			$this -> setNome($nome);
+			$this -> setTipo($tipo);
+			$this -> setDono($dono);
+			$this -> setAtivo($ativo);
 		}
 		
-		public function getCodigo() {
+		public function getCodigo() : int {
 			return $this -> codigo;
 		}
 		
-		public function setCodigo($codigo) {
-			if (!is_numeric($codigo)) throw new Exception("Necessário um valor numérico como código.", 1);
-			
+		public function setCodigo(int $codigo) {
 			$this -> codigo = $codigo;
 		}
 		
-		public function getNome() {
+		public function getNome() : string {
 			return $this -> nome;
 		}
 		
-		public function setNome($nome) {
+		public function setNome(string $nome) {
 			if(strlen($nome) < 3 or strlen($nome) >= 30) {
 				throw new Exception("Necessário que o identificador da carteira tenha entre 3 e 30 caracteres.", 2);
 			} else if (preg_match('/[!@#$%&*{}$?<>:;|\/]/', $nome)) {
@@ -51,40 +41,37 @@
 			$this -> nome = $nome;
 		}
 		
-		public function getTipo() {
+		public function getTipo() : int {
 			return $this -> tipo;
 		}
 		
-		public function setTipo($tipo) {
-			if ($tipo != 1 and $tipo != 2 and $tipo != 3) {
+		public function setTipo(int $tipo) {
+			if (!in_array($tipo, array(1, 2, 3))) {
 				throw new Exception("Identificador de \'Tipo\' de carteira não aceito. Favor informar ao responsável pelo sistema.", 4);
 			}
 			$this -> tipo = $tipo;
 		}
 		
-		public function getDono() {
+		public function getDono() : int {
 			return $this -> dono;
 		}
 		
-		public function setDono($dono) {
-			if ($dono != 1 and $dono != 2) {
+		public function setDono(int $dono) {
+			if (!in_array($dono, array(1, 2))) {
 				throw new Exception("Identificador de \'Dono\' de carteira não aceito. Favor informar ao responsável pelo sistema.", 5);
 			}
 			$this -> dono = $dono;
 		}
 		
-		public function getAtivo() {
+		public function getAtivo() : bool {
 			return $this -> ativo;
 		}
 		
-		public function setAtivo($ativo) {
-			if (!is_bool($ativo)) {
-				throw new Exception("Erro desconhecido ao marcar a carteira como ativa/inativa. Favor informar ao responsável pelo sistema.", 6);
-			}
+		public function setAtivo(bool $ativo) {
 			$this -> ativo = $ativo;
 		}
 		
-		public function __toString() {
+		public function __toString() : string {
 			$string = "(" . $this -> codigo . ")" . $this -> nome;
 			return $string;
 		}

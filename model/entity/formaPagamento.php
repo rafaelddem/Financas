@@ -2,39 +2,33 @@
 
 	namespace rafael\financas\model\entity;
 
+	use \Exception;
+
 	class formaPagamento{
 		
-		private $codigo;
-		private $nome;
-		private $ativo;
+		private int $codigo;
+		private String $nome;
+		private bool $ativo;
 		
-		public function __construct($parametros){
-			if (isset($parametros["codigo"])) {
-				$this -> setCodigo($parametros["codigo"]);
-			}
-			if (isset($parametros["nome"])) {
-				$this -> setNome($parametros["nome"]);
-			}
-			if (isset($parametros["ativo"])) {
-				$this -> setAtivo($parametros["ativo"]);
-			}
+		public function __construct(int $codigo, string $nome, bool $ativo){
+			$this -> setCodigo($codigo);
+			$this -> setNome($nome);
+			$this -> setAtivo($ativo);
 		}
 		
-		public function getCodigo(){
+		public function getCodigo() : int{
 			return $this -> codigo;
 		}
 		
-		public function setCodigo($codigo){
-			if (!is_numeric($codigo)) throw new Exception("Necessário um valor numérico como código.", 26);
-			
+		public function setCodigo(int $codigo){
 			$this -> codigo = $codigo;
 		}
 		
-		public function getNome() {
+		public function getNome() : string{
 			return $this -> nome;
 		}
 		
-		public function setNome($nome) {
+		public function setNome(string $nome) {
 			if(strlen($nome) < 3 or strlen($nome) >= 45) {
 				throw new Exception("Necessário que o identificador do tipo de movimento tenha entre 3 e 45 caracteres.", 27);
 			} else if (preg_match('/[!@#$%&*{}$?<>:;|\/]/', $nome)) {
@@ -43,18 +37,15 @@
 			$this -> nome = $nome;
 		}
 		
-		public function getAtivo() {
+		public function getAtivo() : bool {
 			return $this -> ativo;
 		}
 		
-		public function setAtivo($ativo) {
-			if (!is_bool($ativo)) {
-				throw new Exception("Erro desconhecido ao marcar o tipo de movimento como ativo/inativo. Favor informar ao responsável pelo sistema.", 29);
-			}
+		public function setAtivo(bool $ativo) {
 			$this -> ativo = $ativo;
 		}
 		
-		public function __toString() {
+		public function __toString(){
 			$string = "(" . $this -> codigo . ")" . $this -> nome;
 			return $string;
 		}
