@@ -1,0 +1,14 @@
+{
+    "name": "rafaelddem/financas",
+    "description": "Projeto de controle de financas",
+    "type": "project",
+    "require": {
+        "phpunit/phpunit": "^9"
+    },
+    "authors": [
+        {
+            "name": "rafaelddem",
+            "email": "42066475+rafaelddem@users.noreply.github.com"
+        }
+    ]
+}

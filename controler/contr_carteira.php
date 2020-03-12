@@ -7,11 +7,8 @@
 	use rafael\financas\model\bo\bo_carteira;
 	echo "<pre>";
 	$bo_carteira = new bo_carteira();
-//	$arrayTeste = array("codigo" => "1", "nome" => "Identificador");
-//	echo $arrayTeste["codigo"]."<br>";
-//	echo var_dump($arrayTeste)."<br>";
 	
-//	echo $bo_carteira -> salvar("Nome grande", 1, 1, true);
+	echo $bo_carteira -> salvar("Nome grande 2", 1, 1, true);
 //	echo $bo_carteira -> atualizar(29, "Nome corrigido 3", 1, 1, true);
 //	echo $bo_carteira -> atualizar(34, "Nome pah de boas", null, null, true);
 //	echo $bo_carteira -> atualizar(31, null, 1, 1, false);
