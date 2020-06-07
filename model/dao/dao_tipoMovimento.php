@@ -2,21 +2,22 @@
 
     namespace rafael\financas\model\dao;
 
-    include_once '..\autoload.php';
-
     use \PDO;
-    use rafael\financas\model\dao\Conection;
+    use rafael\financas\model\dao\DAOBase;
     use rafael\financas\model\entity\TipoMovimento;
 
-    class DAO_TipoMovimento
+    class DAO_TipoMovimento extends DAOBase
     {
+        public function __construct()
+        {
+            parent::__construct();
+        }
+
         public function salvar(TipoMovimento $tipoMovimento)
         {
-            $conexao = new conection();
-            $pdo = $conexao -> criaPDO();
-            $pdo -> beginTransaction();
+            self::getPDO()->beginTransaction();
             
-            $stmt = $pdo->prepare("insert into tbfi_tipoMovimento (str_nome, chr_tipo, int_indispensavel, str_descricao, chr_ativo) values (:nome, :tipo, :indispensavel, :descricao, :ativo);");
+            $stmt = self::getPDO()->prepare("insert into tbfi_tipoMovimento (str_nome, chr_tipo, int_indispensavel, str_descricao, chr_ativo) values (:nome, :tipo, :indispensavel, :descricao, :ativo);");
             $nome = $tipoMovimento->getNome();
             $tipo = $tipoMovimento->getTipo();
             $indispensavel = $tipoMovimento->getIndispensavel();
@@ -30,19 +31,17 @@
             $stmt->bindParam(':ativo', $ativo,PDO::PARAM_INT);
 
             if (!$stmt->execute()) {
-                $pdo->rollback();
+                self::getPDO()->rollback();
                 throw new Exception("Erro interno ao sistema, ao salvar um objeto 'Tipo de Movimento', necessário informar ao responsável pelo sistema.", 21);
             }
             
-            $pdo->commit();
+            self::getPDO()->commit();
             return "Objeto 'Tipo de Movimento' salvo com sucesso.";
         }
         
         public function atualizar(TipoMovimento $tipoMovimento)
         {
-            $conexao = new conection();
-            $pdo = $conexao -> criaPDO();
-            $pdo -> beginTransaction();
+            self::getPDO()->beginTransaction();
             
             $sql = "update tbfi_tipoMovimento set str_nome = :nome, chr_tipo = :tipo, int_indispensavel = :indispensavel, str_descricao = :descricao, chr_ativo = :ativo where int_codigo = :codigo;";
             $nome = $tipoMovimento->getNome();
@@ -52,7 +51,7 @@
             $descricao = (isset($descricao)) ? $descricao : null;
             $ativo = $tipoMovimento->getAtivo();
             $codigo = $tipoMovimento->getCodigo();
-            $stmt = $pdo->prepare($sql);
+            $stmt = self::getPDO()->prepare($sql);
             $stmt->bindParam(':nome', $nome,PDO::PARAM_STR);
             $stmt->bindParam(':tipo', $tipo,PDO::PARAM_INT);
             $stmt->bindParam(':indispensavel', $indispensavel,PDO::PARAM_INT);
@@ -61,11 +60,11 @@
             $stmt->bindParam(':codigo', $codigo,PDO::PARAM_INT);
 
             if (!$stmt->execute()) {
-                $pdo->rollback();
+                self::getPDO()->rollback();
                 throw new Exception("Erro interno ao sistema, ao atualizar um objeto 'Tipo de Movimento', necessário informar ao responsável pelo sistema.", 23);
             }
             $count = $stmt->rowCount();
-            $pdo->commit();
+            self::getPDO()->commit();
             $retorno  = "O comando de atualização foi executado com sucesso";
             $retorno .= ($count == 0) ? ", porém nenhum registro foi alterado." : ".";
             return $retorno;
@@ -73,9 +72,7 @@
         
         public function pesquisar(array $colunas)
         {
-            $conexao = new conection();
-            $pdo = $conexao -> criaPDO();
-            $pdo -> beginTransaction();
+            self::getPDO()->beginTransaction();
             
             $temFiltro = false;
             $sql = "select * from tbfi_tipoMovimento";
@@ -116,7 +113,7 @@
                 $temFiltro = true;
             }
             $sql .= ";";
-            $stmt = $pdo->prepare($sql);
+            $stmt = self::getPDO()->prepare($sql);
             if (isset($codigo)) $stmt->bindParam(':codigo', $codigo,PDO::PARAM_INT);
             if (isset($nome)) $stmt->bindParam(':nome', $nome,PDO::PARAM_STR);
             if (isset($tipo)) $stmt->bindParam(':tipo', $tipo,PDO::PARAM_INT);
@@ -132,16 +129,16 @@
                         array_push($tiposMovimento, $tipoMovimento);
                     }
                 } else {
-                    $pdo->rollback();
+                    self::getPDO()->rollback();
                     $retorno  = "Não há registro para os filtros pesquisados.";
                     return $retorno;
                 }
             } else {
-                $pdo->rollback();
+                self::getPDO()->rollback();
                 throw new Exception("Erro interno ao sistema, ao tentar buscar o(s) objeto(s) de tipo 'Tipo de Movimento', necessário informar ao responsável pelo sistema.", 25);
             }
             
-            $pdo->commit();
+            self::getPDO()->commit();
             return $tiposMovimento;
         }
         

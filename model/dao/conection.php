@@ -13,55 +13,55 @@
         
         public function __construct()
         {
-            $this -> banco = "financas";
-            $this -> servidor = "127.0.0.1";
-            $this -> usuario = "root";
-            $this -> senha = "root";
+            $this->banco = "financas";
+            $this->servidor = "127.0.0.1";
+            $this->usuario = "root";
+            $this->senha = "root";
         }
         
         public function setBanco(string $banco)
         {
-            $this -> banco = $banco;
+            $this->banco = $banco;
         }
         
         public function getBanco() : string
         {
-            return $this -> banco;
+            return $this->banco;
         }
         
         public function setServidor(string $banco)
         {
-            $this -> servidor = $servidor;
+            $this->servidor = $servidor;
         }
         
         public function getServidor() : string
         {
-            return $this -> servidor;
+            return $this->servidor;
         }
         
         public function setUsuario(string $banco)
         {
-            $this -> usuario = $usuario;
+            $this->usuario = $usuario;
         }
         
         public function getUsuario() : string
         {
-            return $this -> usuario;
+            return $this->usuario;
         }
         
         public function setSenha(string $banco)
         {
-            $this -> senha = $senha;
+            $this->senha = $senha;
         }
         
         public function getSenha() : string
         {
-            return $this -> senha;
+            return $this->senha;
         }
         
         public function criaPDO()
         {
-            return new PDO("mysql:host=" . $this -> servidor . ";dbname=" . $this -> banco, $this -> usuario, $this -> senha);
+            return new PDO("mysql:host=" . $this->servidor . ";dbname=" . $this->banco, $this->usuario, $this->senha);
         }
         
     }

@@ -10,26 +10,26 @@
         private String $nome;
         private bool $ativo;
         
-        public function __construct(int $codigo, string $nome, bool $ativo)
+        public function __construct(int $codigo = 0, string $nome, bool $ativo)
         {
-            $this -> setCodigo($codigo);
-            $this -> setNome($nome);
-            $this -> setAtivo($ativo);
+            self::setCodigo($codigo);
+            self::setNome($nome);
+            self::setAtivo($ativo);
         }
         
         public function getCodigo() : int
         {
-            return $this -> codigo;
+            return $this->codigo;
         }
         
         public function setCodigo(int $codigo)
         {
-            $this -> codigo = $codigo;
+            $this->codigo = $codigo;
         }
         
         public function getNome() : string
         {
-            return $this -> nome;
+            return $this->nome;
         }
         
         public function setNome(string $nome)
@@ -39,22 +39,22 @@
             else if (preg_match('/[!@#$%&*{}$?<>:;|\/]/', $nome))
                 throw new Exception("Não são permitidos caracteres especiais no identificador do forma de pagamento.", 28);
             
-            $this -> nome = $nome;
+            $this->nome = $nome;
         }
         
         public function getAtivo() : bool
         {
-            return $this -> ativo;
+            return $this->ativo;
         }
         
         public function setAtivo(bool $ativo)
         {
-            $this -> ativo = $ativo;
+            $this->ativo = $ativo;
         }
         
         public function __toString()
         {
-            $string = "(" . $this -> codigo . ")" . $this -> nome;
+            $string = "(" . $this->codigo . ")" . $this->nome;
             return $string;
         }
     

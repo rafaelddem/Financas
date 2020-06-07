@@ -13,12 +13,12 @@
         public function salvar(string $nome, bool $ativo)
         {
             try {
-                $formaPagamento = new FormaPagamento(0, $nome, $ativo);
+                $formaPagamento = new FormaPagamento(null, $nome, $ativo);
                 $dao_formaPagamento = new DAO_FormaPagamento();
-                return $dao_formaPagamento -> salvar($formaPagamento);
+                return $dao_formaPagamento->salvar($formaPagamento);
             } catch (Exception $e) {
-                $retorno  = "Erro ao salvar um objeto 'Forma de Pagamento' (Código do erro: ".$e -> getCode().").<br>";
-                $retorno .= $e -> getMessage();
+                $retorno  = "Erro ao salvar um objeto 'Forma de Pagamento' (Código do erro: ".$e->getCode().").<br>";
+                $retorno .= $e->getMessage();
                 return $retorno;
             }
         }
@@ -28,10 +28,10 @@
             try {
                 $formaPagamento = new FormaPagamento($codigo, $nome, $ativo);
                 $dao_formaPagamento = new DAO_FormaPagamento();
-                return $dao_formaPagamento -> atualizar($formaPagamento);
+                return $dao_formaPagamento->atualizar($formaPagamento);
             } catch (Exception $e) {
-                $retorno  = "Erro ao atualizar um objeto 'Forma de Pagamento' (Código do erro: ".$e -> getCode().").<br>";
-                $retorno .= $e -> getMessage();
+                $retorno  = "Erro ao atualizar um objeto 'Forma de Pagamento' (Código do erro: ".$e->getCode().").<br>";
+                $retorno .= $e->getMessage();
                 return $retorno;
             }
         }
@@ -41,10 +41,10 @@
             try {
                 $parametros = array("nome" => $nome, "ativo" => $ativo);
                 $dao_formaPagamento = new DAO_FormaPagamento();
-                return $dao_formaPagamento -> pesquisar($parametros);
+                return $dao_formaPagamento->pesquisar($parametros);
             } catch (Exception $e) {
-                $retorno  = "Erro ao buscar o(s) objeto(s) 'Forma de Pagamento' (Código do erro: ".$e -> getCode().").<br>";
-                $retorno .= $e -> getMessage();
+                $retorno  = "Erro ao buscar o(s) objeto(s) 'Forma de Pagamento' (Código do erro: ".$e->getCode().").<br>";
+                $retorno .= $e->getMessage();
                 return $retorno;
             }
         }
@@ -54,10 +54,10 @@
             try {
                 $parametros = array("codigo" => $codigo);
                 $dao_formaPagamento = new DAO_FormaPagamento();
-                return $dao_formaPagamento -> pesquisar($parametros);
+                return $dao_formaPagamento->pesquisar($parametros);
             } catch (Exception $e) {
-                $retorno  = "Erro ao buscar o(s) objeto(s) 'Forma de Pagamento' (Código do erro: ".$e -> getCode().").<br>";
-                $retorno .= $e -> getMessage();
+                $retorno  = "Erro ao buscar o(s) objeto(s) 'Forma de Pagamento' (Código do erro: ".$e->getCode().").<br>";
+                $retorno .= $e->getMessage();
                 return $retorno;
             }
         }
@@ -67,10 +67,10 @@
             try {
                 $parametros = array("ativo" => true);
                 $dao_formaPagamento = new DAO_FormaPagamento();
-                return $dao_formaPagamento -> pesquisar($parametros);
+                return $dao_formaPagamento->pesquisar($parametros);
             } catch (Exception $e) {
-                $retorno  = "Erro ao buscar o(s) objeto(s) 'Forma de Pagamento' (Código do erro: ".$e -> getCode().").<br>";
-                $retorno .= $e -> getMessage();
+                $retorno  = "Erro ao buscar o(s) objeto(s) 'Forma de Pagamento' (Código do erro: ".$e->getCode().").<br>";
+                $retorno .= $e->getMessage();
                 return $retorno;
             }
         }
@@ -80,10 +80,10 @@
             try {
                 $parametros = array("ativo" => false);
                 $dao_formaPagamento = new DAO_FormaPagamento();
-                return $dao_formaPagamento -> pesquisar($parametros);
+                return $dao_formaPagamento->pesquisar($parametros);
             } catch (Exception $e) {
-                $retorno  = "Erro ao buscar o(s) objeto(s) 'Forma de Pagamento' (Código do erro: ".$e -> getCode().").<br>";
-                $retorno .= $e -> getMessage();
+                $retorno  = "Erro ao buscar o(s) objeto(s) 'Forma de Pagamento' (Código do erro: ".$e->getCode().").<br>";
+                $retorno .= $e->getMessage();
                 return $retorno;
             }
         }
