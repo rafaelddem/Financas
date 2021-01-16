@@ -10,10 +10,10 @@
     
     class BO_TipoMovimento {
         
-        public function salvar(string $nome, int $tipo, int $indispensavel = 0, string $descricao = null, bool $ativo)
+        public function salvar(string $nome, int $tipo, int $indispensavel, string $descricao, bool $ativo)
         {
             try {
-                $tipoMovimento = new TipoMovimento(null, $nome, $tipo, $indispensavel, $descricao, $ativo);
+                $tipoMovimento = new TipoMovimento(0, $nome, $tipo, $indispensavel, $descricao, $ativo);
                 $dao_tipoMovimento = new DAO_TipoMovimento();
                 return $dao_tipoMovimento->salvar($tipoMovimento);
             } catch (Exception $e) {
@@ -23,7 +23,7 @@
             }
         }
         
-        public function atualizar(int $codigo, string $nome, int $tipo, int $indispensavel = 0, string $descricao = null, bool $ativo)
+        public function atualizar(int $codigo, string $nome, int $tipo, int $indispensavel, string $descricao, bool $ativo)
         {
             try {
                 $tipoMovimento = new TipoMovimento($codigo, $nome, $tipo, $indispensavel, $descricao, $ativo);

@@ -4,6 +4,62 @@
 
 	include_once '..\autoload.php';
 
+	use \dateTime;
+	use rafael\financas\model\bo\bo_movimento;
+	use rafael\financas\model\entity\carteira;
+	use rafael\financas\model\entity\tipoMovimento;
+	use rafael\financas\model\entity\formaPagamento;
+	use rafael\financas\model\entity\movimento;
+
+	echo "Testes objeto 'Movimento'";
+
+	$carteiraOrigem = new Carteira(4,"Casa", 1, 1);
+	$carteiraDestino = new Carteira(2,"Gasto", 1, 1);
+	$tipoMovimento = new TipoMovimento(15, "Diversos - Negativo", 2, 0, "", true);
+	$formaPagamento = new FormaPagamento(0, "Dinheiro", true);
+
+	echo "<br>Objeto correto: ";
+	try {
+		$movimento = new Movimento(0, 1, $tipoMovimento, new DateTime('2020-01-08'), new DateTime('9999-12-31'), 10.00, 0.00, 0.00, 0.00, 0.00, $formaPagamento, $carteiraOrigem, $carteiraDestino, 0, "");
+		echo "OK";
+	} catch (\Throwable $th) {
+		echo "<font color='red'>{$th->getMessage()}</font>";
+	}
+exit;
+
+	$bo_carteira = new bo_carteira();
+	//echo "<br>" . $bo_carteira -> salvar("Nome", 1, 1);
+	//echo "<br>" . $bo_carteira -> atualizar(31, "Corrigido 2", 0, true);
+
+	echo "<pre>";
+
+	$arrayCarteiras = array();
+//	$arrayCarteiras = $bo_carteira -> buscarPorFiltro(null, null, null, null);
+//	$arrayCarteiras = $bo_carteira -> buscarPorCodigo(27);
+//	$arrayCarteiras = $bo_carteira -> buscarInativos();
+	if (is_array($arrayCarteiras)) {
+		foreach ($arrayCarteiras as $carteira) {
+			echo $carteira;
+			echo "<br>";
+		}
+	} else {
+		echo $arrayCarteiras;
+	}
+	echo "<pre>";
+?>
+
+
+
+
+
+
+
+<?php
+
+	namespace rafael\financas\controler;
+
+	include_once '..\autoload.php';
+
 	use \DateTime;
     use rafael\financas\model\entity\Carteira;
     use rafael\financas\model\entity\TipoMovimento;

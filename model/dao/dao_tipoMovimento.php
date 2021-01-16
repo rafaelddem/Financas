@@ -22,7 +22,7 @@
             $tipo = $tipoMovimento->getTipo();
             $indispensavel = $tipoMovimento->getIndispensavel();
             $descricao = $tipoMovimento->getDescricao();
-            $descricao = (isset($descricao)) ? $descricao : null;
+            $descricao = (empty($descricao)) ? null : $descricao;
             $ativo = $tipoMovimento->getAtivo();
             $stmt->bindParam(':nome', $nome,PDO::PARAM_STR);
             $stmt->bindParam(':tipo', $tipo,PDO::PARAM_INT);
@@ -32,7 +32,7 @@
 
             if (!$stmt->execute()) {
                 self::getPDO()->rollback();
-                throw new Exception("Erro interno ao sistema, ao salvar um objeto 'Tipo de Movimento', necessário informar ao responsável pelo sistema.", 21);
+                throw new Exception("Erro interno ao sistema, ao salvar um objeto 'Tipo de Movimento'.", 12);
             }
             
             self::getPDO()->commit();
@@ -48,7 +48,7 @@
             $tipo = $tipoMovimento->getTipo();
             $indispensavel = $tipoMovimento->getIndispensavel();
             $descricao = $tipoMovimento->getDescricao();
-            $descricao = (isset($descricao)) ? $descricao : null;
+            $descricao = (empty($descricao)) ? null : $descricao;
             $ativo = $tipoMovimento->getAtivo();
             $codigo = $tipoMovimento->getCodigo();
             $stmt = self::getPDO()->prepare($sql);
@@ -61,7 +61,7 @@
 
             if (!$stmt->execute()) {
                 self::getPDO()->rollback();
-                throw new Exception("Erro interno ao sistema, ao atualizar um objeto 'Tipo de Movimento', necessário informar ao responsável pelo sistema.", 23);
+                throw new Exception("Erro interno ao sistema, ao atualizar um objeto 'Tipo de Movimento'.", 13);
             }
             $count = $stmt->rowCount();
             self::getPDO()->commit();
@@ -125,7 +125,8 @@
                 if($stmt->rowCount() > 0) {
                     $tiposMovimento = array();
                     while($row = $stmt->fetch(PDO::FETCH_OBJ)){
-                        $tipoMovimento = new TipoMovimento($row->int_codigo, $row->str_nome, $row->chr_tipo, $row->int_indispensavel, $row->str_descricao, boolval($row->chr_ativo));
+                        $descricao = empty($row->str_descricao) ? "" : $row->str_descricao;
+                        $tipoMovimento = new TipoMovimento($row->int_codigo, $row->str_nome, $row->chr_tipo, $row->int_indispensavel, $descricao, boolval($row->chr_ativo));
                         array_push($tiposMovimento, $tipoMovimento);
                     }
                 } else {
@@ -135,7 +136,7 @@
                 }
             } else {
                 self::getPDO()->rollback();
-                throw new Exception("Erro interno ao sistema, ao tentar buscar o(s) objeto(s) de tipo 'Tipo de Movimento', necessário informar ao responsável pelo sistema.", 25);
+                throw new Exception("Erro interno ao sistema, ao tentar buscar o(s) objeto(s) de tipo 'Tipo de Movimento'.", 14);
             }
             
             self::getPDO()->commit();

@@ -39,10 +39,10 @@
                     foreach ($movimentos as $movimento) {
                         $sucesso = self::salvarMovimentoUnico($movimento, $codigoMovimento);
                         if (!$sucesso)
-                            throw new Exception("Erro interno ao sistema, ao salvar um objeto 'Movimento', favor informar ao responsável pelo sistema.", 11);
+                            throw new Exception("Erro interno ao sistema, ao salvar um objeto 'Movimento'.", 20);
                     }
                 } else {
-                    throw new Exception("Erro interno ao sistema, ao salvar um objeto 'Movimento', favor informar ao responsável pelo sistema.", 10);
+                    throw new Exception("Erro interno ao sistema, ao salvar um objeto 'Movimento'.", 21);
                 }
             } catch (Exception $e) {
                 self::getPDO()->rollback();

@@ -8,15 +8,13 @@
     {
         private int $codigo;
         private string $nome;
-        private int $tipo;
         private int $dono;
         private bool $ativo;
         
-        public function __construct(int $codigo = 0, string $nome, int $tipo = 3, int $dono = 1, bool $ativo = false)
+        public function __construct(int $codigo, string $nome, int $dono, bool $ativo)
         {
             self::setCodigo($codigo);
             self::setNome($nome);
-            self::setTipo($tipo);
             self::setDono($dono);
             self::setAtivo($ativo);
         }
@@ -38,25 +36,12 @@
         
         public function setNome(string $nome)
         {
-            if(strlen($nome) < 3 or strlen($nome) >= 30)
-                throw new Exception("Necessário que o identificador da carteira tenha entre 3 e 30 caracteres.", 2);
+            if(strlen($nome) < 3 or strlen($nome) > 30)
+                throw new Exception("Necessário que o identificador da carteira tenha entre 3 e 30 caracteres.", 1);
             else if (preg_match('/[!@#$%&*{}$?<>:;|\/]/', $nome))
-                throw new Exception("Não são permitidos caracteres especiais no identificador da carteira.", 3);
+                throw new Exception("Não são permitidos caracteres especiais no identificador da carteira.", 2);
             
             $this->nome = $nome;
-        }
-        
-        public function getTipo() : int
-        {
-            return $this->tipo;
-        }
-        
-        public function setTipo(int $tipo)
-        {
-            if (!in_array($tipo, array(1, 2, 3)))
-                throw new Exception("Identificador de \'Tipo\' de carteira não aceito. Favor informar ao responsável pelo sistema.", 4);
-            
-            $this->tipo = $tipo;
         }
         
         public function getDono() : int
@@ -67,7 +52,7 @@
         public function setDono(int $dono)
         {
             if (!in_array($dono, array(1, 2)))
-                throw new Exception("Identificador de \'Dono\' de carteira não aceito. Favor informar ao responsável pelo sistema.", 5);
+                throw new Exception("Identificador de 'Dono' de carteira não aceito.", 3);
             
             $this->dono = $dono;
         }

@@ -20,17 +20,16 @@
         private float $tributacao;
         private float $juros;
         private float $arredondamento;
-        private float $valorFinal;
         private FormaPagamento $formaPagamento;
         private Carteira $carteiraOrigem;
         private Carteira $carteiraDestino;
         private int $indispensavel;
         private string $descricao;
 
-        public function __construct(int $codigo = 0, int $parcela = 1, TipoMovimento $tipoMovimento, DateTime $dataMovimento, DateTime $dataPagamento = null, 
-                                    float $valorInicial, float $desconto, float $tributacao, float $juros, float $arredondamento, float $valorFinal, 
-                                    FormaPagamento $formaPagamento, Carteira $carteiraOrigem, Carteira $carteiraDestino, int $indispensavel = 0, 
-                                    string $descricao = null)
+        public function __construct(int $codigo, int $parcela, TipoMovimento $tipoMovimento, DateTime $dataMovimento, DateTime $dataPagamento, 
+                                    float $valorInicial, float $desconto, float $tributacao, float $juros, float $arredondamento, 
+                                    FormaPagamento $formaPagamento, Carteira $carteiraOrigem, Carteira $carteiraDestino, int $indispensavel, 
+                                    string $descricao)
         {
             self::setCodigo($codigo);
             self::setParcela($parcela);
@@ -42,7 +41,6 @@
             self::setTributacao($tributacao);
             self::setJuros($juros);
             self::setArredondamento($arredondamento);
-            self::setValorFinal($valorFinal);
             self::setFormaPagamento($formaPagamento);
             self::setCarteiraOrigem($carteiraOrigem);
             self::setCarteiraDestino($carteiraDestino);
@@ -155,14 +153,9 @@
             return $this->arredondamento;
         }
 
-        public function setValorFinal(float $valorFinal)
-        {
-            $this->valorFinal = $valorFinal;
-        }
-
         public function getValorFinal() : float
         {
-            return $this->valorFinal;
+            return ($this->valorInicial - $this->desconto) + $this->tributacao + $this->juros + $this->arredondamento;
         }
 
         public function setFormaPagamento(FormaPagamento $formaPagamento)

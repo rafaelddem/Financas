@@ -13,7 +13,7 @@
         public function salvar(string $nome, bool $ativo)
         {
             try {
-                $formaPagamento = new FormaPagamento(null, $nome, $ativo);
+                $formaPagamento = new FormaPagamento(0, $nome, $ativo);
                 $dao_formaPagamento = new DAO_FormaPagamento();
                 return $dao_formaPagamento->salvar($formaPagamento);
             } catch (Exception $e) {

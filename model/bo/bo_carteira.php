@@ -8,10 +8,10 @@
     
     class BO_Carteira
     {
-        public function salvar(string $nome, int $tipo, int $dono, bool $ativo)
+        public function salvar(string $nome, int $dono, bool $ativo)
         {
             try {
-                $carteira = new Carteira(null, $nome, $tipo, $dono, $ativo);
+                $carteira = new Carteira(0, $nome, $dono, $ativo);
                 $dao_carteira = new DAO_Carteira();
                 return $dao_carteira->salvar($carteira);
             } catch (Exception $e) {
@@ -21,10 +21,10 @@
             }
         }
         
-        public function atualizar(int $codigo, string $nome, int $tipo, int $dono, bool $ativo)
+        public function atualizar(int $codigo, string $nome, int $dono, bool $ativo)
         {
             try {
-                $carteira = new Carteira($codigo, $nome, $tipo, $dono, $ativo);
+                $carteira = new Carteira($codigo, $nome, $dono, $ativo);
                 $dao_carteira = new DAO_Carteira();
                 return $dao_carteira->atualizar($carteira);
             } catch (Exception $e) {
@@ -34,10 +34,10 @@
             }
         }
         
-        public function buscarPorFiltro(string $nome = null, int $tipo = null, int $dono = null, bool $ativo = null)
+        public function buscarPorFiltro(string $nome = null, int $dono = null, bool $ativo = null)
         {
             try {
-                $parametros = array("nome" => $nome, "tipo" => $tipo, "dono" => $dono, "ativo" => $ativo);
+                $parametros = array("nome" => $nome, "dono" => $dono, "ativo" => $ativo);
                 $dao_carteira = new DAO_Carteira();
                 return $dao_carteira->pesquisar($parametros);
             } catch (Exception $e) {

@@ -10,7 +10,7 @@
         private String $nome;
         private bool $ativo;
         
-        public function __construct(int $codigo = 0, string $nome, bool $ativo)
+        public function __construct(int $codigo, string $nome, bool $ativo)
         {
             self::setCodigo($codigo);
             self::setNome($nome);
@@ -34,10 +34,10 @@
         
         public function setNome(string $nome)
         {
-            if(strlen($nome) < 3 or strlen($nome) >= 45)
-                throw new Exception("Necessário que o identificador do tipo de movimento tenha entre 3 e 45 caracteres.", 27);
+            if(strlen($nome) < 3 or strlen($nome) > 45)
+                throw new Exception("Necessário que o identificador da forma de pagamento tenha entre 3 e 45 caracteres.", 15);
             else if (preg_match('/[!@#$%&*{}$?<>:;|\/]/', $nome))
-                throw new Exception("Não são permitidos caracteres especiais no identificador do forma de pagamento.", 28);
+                throw new Exception("Não são permitidos caracteres especiais no identificador do forma de pagamento.", 16);
             
             $this->nome = $nome;
         }

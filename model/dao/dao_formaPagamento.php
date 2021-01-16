@@ -25,7 +25,7 @@
 
             if (!$stmt->execute()) {
                 self::getPDO()->rollback();
-                throw new Exception("Erro interno ao sistema, ao salvar um objeto 'Forma de Pagamento', necessário informar ao responsável pelo sistema.", 31);
+                throw new Exception("Erro interno ao sistema, ao salvar um objeto 'Forma de Pagamento'.", 17);
             }
                 
             self::getPDO()->commit();
@@ -47,7 +47,7 @@
 
             if (!$stmt->execute()) {
                 self::getPDO()->rollback();
-                throw new Exception("Erro interno ao sistema, ao atualizar um objeto 'Forma de Pagamento', necessário informar ao responsável pelo sistema.", 33);
+                throw new Exception("Erro interno ao sistema, ao atualizar um objeto 'Forma de Pagamento'.", 18);
             }
             $count = $stmt->rowCount();
             self::getPDO()->commit();
@@ -100,7 +100,7 @@
                 }
             } else {
                 self::getPDO()->rollback();
-                throw new Exception("Erro interno ao sistema, ao tentar buscar o(s) objeto(s) de tipo 'Forma de Pagamento', necessário informar ao responsável pelo sistema.", 35);
+                throw new Exception("Erro interno ao sistema, ao tentar buscar o(s) objeto(s) de tipo 'Forma de Pagamento'.", 19);
             }
             
             self::getPDO()->commit();

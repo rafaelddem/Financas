@@ -14,10 +14,10 @@
     
     class BO_Movimento
     {
-        public function salvar(int $parcela = 1, TipoMovimento $tipoMovimento, DateTime $dataMovimento, DateTime $dataPagamento = null, 
+        public function salvar(int $parcela, TipoMovimento $tipoMovimento, DateTime $dataMovimento, DateTime $dataPagamento, 
                                 float $valorInicial, float $desconto, float $tributacao, float $juros, float $arredondamento, float $valorFinal, 
-                                FormaPagamento $formaPagamento, Carteira $carteiraOrigem, Carteira $carteiraDestino, int $indispensavel = 0, 
-                                string $descricao = null, array $parcelas = null)
+                                FormaPagamento $formaPagamento, Carteira $carteiraOrigem, Carteira $carteiraDestino, int $indispensavel, 
+                                string $descricao, array $parcelas)
         {
             try {
                 $movimento = new Movimento(0, $parcela, $tipoMovimento, $dataMovimento, $dataPagamento, $valorInicial, $desconto, $tributacao, $juros, $arredondamento, $valorFinal, $formaPagamento, $carteiraOrigem, $carteiraDestino, $indispensavel, $descricao);
@@ -30,7 +30,7 @@
             }
         }
         
-        public function salvar2(int $parcela = 1, TipoMovimento $tipoMovimento, array $parcelas, int $indispensavel = 0, string $descricao = null)
+        public function salvar2(int $tipoMovimento, array $parcelas, inf $formaPagamento, int $indispensavel, string $descricao)
         {
             try {
                 $movimentos = array();
